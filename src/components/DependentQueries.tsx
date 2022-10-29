@@ -42,7 +42,7 @@ const DependentQueries = (props: Props) => {
       await axios.get<Products[]>(
         `https://jsonplaceholder.typicode.com/posts?${data?.[0].id}`
       ),
-    { enabled: !!data[0]?.id }
+    { enabled: !!data?.[0]?.id }
   );
 
   return (
@@ -60,18 +60,15 @@ const DependentQueries = (props: Props) => {
       )}
       <div>
         <h2>User Posts</h2>
-        {fetchStatus === "idle" && postLoading
-          ? null
-          : postLoading
-          ? "loadingPost...."
-          : postsData?.data.map((product) => {
-              return (
-                <div key={product.id}>
-                  <h3>Title: {product.title}</h3>
-                  <p>Body: {product.body}</p>
-                </div>
-              );
+        {fetchStatus === "idle" && postLoading ? null : postLoading ? (
+          "loadingPost...."
+        ) : (
+          <ul>
+            {postsData?.data.map((product) => {
+              return <li key={product.id}>{product.title}</li>;
             })}
+          </ul>
+        )}
       </div>
     </>
   );
