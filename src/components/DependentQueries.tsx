@@ -1,12 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { User } from "../models/pokemon";
+import existingUser from "../store/existingUser";
 
 type Props = {};
-
-interface User {
-  id: number;
-  name: string;
-}
 
 interface Products {
   userId: number;
@@ -18,12 +15,23 @@ interface Products {
 const email = "Sincere@april.biz";
 
 const DependentQueries = (props: Props) => {
-  const { data, isLoading } = useQuery(["user"], async () => {
-    await new Promise((res) => setTimeout(res, 2000));
-    return await axios.get<[User]>(
-      `https://jsonplaceholder.typicode.com/users?email=${email}`
-    );
-  });
+  const { data, isLoading } = useQuery(
+    ["user"],
+    async () => {
+      await new Promise((res) => setTimeout(res, 2000));
+      return await axios
+        .get<[User]>(
+          `https://jsonplaceholder.typicode.com/users?email=${email}`
+        )
+        .then((data): { data: [User]; headers?: Object } => ({
+          data: data.data,
+          headers: data.headers,
+        }));
+    },
+    {
+      initialData: { data: [existingUser] },
+    }
+  );
 
   const {
     data: postsData,
