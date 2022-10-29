@@ -1,9 +1,31 @@
-import React from "react";
+import { Post } from "../../models/posts";
 
-type Props = {};
+type Props = {
+  posts: Post[];
+  setPostId: Function;
+};
 
-const Posts = (props: Props) => {
-  return <div>Posts</div>;
+const Posts = ({ posts, setPostId }: Props) => {
+  return (
+    <ul>
+      {posts.map(({ id, title }) => {
+        return (
+          <li key={id}>
+            <span
+              onClick={() => setPostId(id)}
+              style={{
+                color: "blue",
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+            >
+              {title}
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  );
 };
 
 export default Posts;
