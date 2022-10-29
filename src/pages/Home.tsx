@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 import DependentQueries from "../components/DependentQueries";
 // import GlobalState from "../components/GlobalState";
-import Pokemon from "../components/Pokemon";
-import { pokemon } from "../key/pokemon";
+// import Pokemon from "../components/Pokemon";
+// import { pokemon } from "../key/pokemon";
 // import StopWatch from "../components/StopWatch";
 
 type Props = {};
@@ -21,11 +21,11 @@ const Home = (props: Props) => {
         onChange={(e) => setFindPokemon(e.target.value)}
         value={findPokemon}
       />
-      <Pokemon
+      {/* <Pokemon
         queryKey={pokemon.key}
         queryUrl={pokemon.url}
         findPokemon={findPokemon}
-      />
+      /> */}
       {/* <StopWatch /> */}
       {/* <GlobalState /> */}
     </Fragment>
