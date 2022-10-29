@@ -19,17 +19,16 @@ const DependentQueries = (props: Props) => {
     ["user"],
     async () => {
       await new Promise((res) => setTimeout(res, 2000));
-      return await axios
-        .get<[User]>(
+      return (
+        await axios.get<[User]>(
           `https://jsonplaceholder.typicode.com/users?email=${email}`
         )
-        .then((data): { data: [User]; headers?: Object } => ({
-          data: data.data,
-          headers: data.headers,
-        }));
+      ).data;
     },
     {
-      initialData: { data: [existingUser] },
+      // placeholderData: [existingUser],
+      initialData: [existingUser],
+      staleTime: 1000,
     }
   );
 
@@ -41,9 +40,9 @@ const DependentQueries = (props: Props) => {
     ["posts"],
     async () =>
       await axios.get<Products[]>(
-        `https://jsonplaceholder.typicode.com/posts?${data?.data[0].id}`
+        `https://jsonplaceholder.typicode.com/posts?${data?.[0].id}`
       ),
-    { enabled: !!data?.data[0]?.id }
+    { enabled: !!data[0]?.id }
   );
 
   return (
@@ -54,8 +53,8 @@ const DependentQueries = (props: Props) => {
         <div>
           <h2>
             user full name:{" "}
-            <span style={{ color: "red" }}>{data?.data[0].name}</span>
-            UserId: <span style={{ color: "red" }}>{data?.data[0].id}</span>
+            <span style={{ color: "red" }}>{data?.[0].name}</span>
+            UserId: <span style={{ color: "red" }}>{data?.[0].id}</span>
           </h2>
         </div>
       )}
