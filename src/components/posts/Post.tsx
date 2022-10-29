@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 import { Post as PostType } from "../../models/posts";
-import { queryClient } from "../../App";
+// import { queryClient } from "../../App";
 
 type Props = {
   postUrl: string;
@@ -10,17 +10,17 @@ type Props = {
 };
 
 const Post = ({ postUrl, setPostId }: Props) => {
-  const allPosts = queryClient.getQueriesData<PostType[]>(["posts"]);
-  const postId: any = postUrl.match(/\d+/g)?.join("");
+  // const allPosts = queryClient.getQueriesData<PostType[]>(["posts"]);
+  // const postId: any = postUrl.match(/\d+/g)?.join("");
 
-  const allPostData = allPosts?.[0]?.[1];
+  // const allPostData = allPosts?.[0]?.[1];
 
   const { data, isLoading, isFetching } = useQuery(
     ["post", postUrl],
     async () => (await axios.get<PostType>(postUrl)).data,
     {
-      placeholderData: () =>
-        allPostData?.find((gPost) => gPost.id === parseInt(postId)),
+      // placeholderData: () =>
+      //   allPostData?.find((gPost) => gPost.id === parseInt(postId)),
     }
   );
 
