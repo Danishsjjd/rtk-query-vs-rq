@@ -14,7 +14,8 @@ const StopWatch = (props: Props) => {
   const watch = useRef(createWatch());
 
   const { data } = useQuery(["StopWatch"], watch.current, {
-    refetchInterval: 1000,
+    // refetchInterval: 5000,
+    staleTime: Infinity,
   });
 
   return (

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { queryClient } from "../App";
+import { queryClient } from "../Home";
 
 type Props = {};
 

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 import { Post as PostType } from "../../models/posts";
-// import { queryClient } from "../../App";
+// import { queryClient } from "../../Home";
 
 type Props = {
   postUrl: string;
