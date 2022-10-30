@@ -5,7 +5,7 @@ import { useReducer, useState } from "react";
 import { Post as PostType } from "../../models/posts";
 import Post from "./Post";
 import Posts from "./Posts";
-import { queryClient } from "../../Home";
+import { queryClient } from "../../App";
 
 type Props = {};
 

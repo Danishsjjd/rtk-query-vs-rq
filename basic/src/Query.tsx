@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 // import Pokemon from "./components/Pokemon";
 import Posts, { fetchData } from "./components/posts";
 // import StopWatch from "./components/StopWatch";
-import { queryClient } from "./Home";
+import { queryClient } from "./App";
 
 function Home() {
   const [toggle, setToggle] = useState(false);
