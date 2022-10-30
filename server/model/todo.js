@@ -54,9 +54,17 @@ const vUpdateTodo = (obj) => {
   return schema.validate(obj, { errors: { wrap: { label: false } } });
 };
 
+const vGetTodo = (obj) => {
+  const schema = Joi.object({
+    _id: Joi.objectId().required(),
+  });
+  return schema.validate(obj);
+};
+
 module.exports = {
   Todo,
   vCreateTodo,
   vDeleteTodo,
   vUpdateTodo,
+  vGetTodo,
 };

@@ -1,30 +1,51 @@
-import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { SubmitHandler, useForm } from "react-hook-form";
 
+import { queryClient } from "../../App";
+import { Todo } from "../../models/todo";
 import { url } from "./index";
-import { queryClient } from "../../../basic/src/App";
-type Props = {};
 
 type FormValue = {
   todo: string;
 };
 
-const Create = (props: Props) => {
+const Create = () => {
   const {
     handleSubmit,
     register,
     formState: { errors },
+    reset,
   } = useForm<FormValue>({});
 
   const { mutate, isLoading, isError, error } = useMutation<
-    null,
+    Todo,
     AxiosError<{ message: string }>,
     FormValue,
-    { id: string }
+    () => Todo[] | undefined
   >((data) => axios.post(url, { todo: data.todo }), {
-    onSettled() {
+    onSuccess() {
       queryClient.invalidateQueries(["todos"]);
+      reset({ todo: "" });
+    },
+    onMutate(variables) {
+      let oldData: Todo[] | undefined;
+      queryClient.setQueryData<Todo[]>(["todos"], (previousTodo) => {
+        oldData = previousTodo;
+        if (typeof previousTodo !== "undefined")
+          return [
+            ...previousTodo,
+            {
+              _id: Date.now().toString(),
+              completed: false,
+              todo: variables.todo,
+            },
+          ];
+      });
+      return () => queryClient.setQueryData<Todo[]>(["todos"], oldData);
+    },
+    onError(error, variables, rollback) {
+      rollback?.();
     },
   });
 

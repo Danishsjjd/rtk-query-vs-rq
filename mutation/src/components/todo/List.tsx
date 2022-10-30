@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import { Todo } from "../../../basic/src/models/todo";
+
+import { Todo } from "../../models/todo";
 import { url } from "./index";
 type Props = {};
 
 const List = (props: Props) => {
-  const { data, isLoading, isError } = useQuery(["todos"], async () =>
-    axios.get<Todo[]>(url)
+  const { data, isLoading, isError } = useQuery(
+    ["todos"],
+    async () => (await axios.get<Todo[]>(url)).data
   );
 
   if (isLoading) return <span>Loading</span>;
@@ -14,11 +17,11 @@ const List = (props: Props) => {
 
   return (
     <ul>
-      {data.data?.map(({ _id, completed, todo }) => (
+      {data?.map(({ _id, completed, todo }) => (
         <li key={_id}>
-          <span>{todo}</span>
-          <button>Update</button>
-          <button>Delete</button>
+          <Link to={`todo/${_id}`}>
+            <span>{todo}</span>
+          </Link>
         </li>
       ))}
     </ul>

@@ -1,4 +1,5 @@
 const { Todo } = require("../model/todo");
+const ErrorHandler = require("../utils/ErrorHandler");
 
 exports.createTodo = async (req, res) => {
   const todo = await Todo.create(req.body);
@@ -25,5 +26,12 @@ exports.updateTodo = async (req, res) => {
 
 exports.getTodo = async (req, res) => {
   const todo = await Todo.find();
+  res.json(todo);
+};
+
+exports.getSingleTodo = async (req, res, next) => {
+  const { _id } = req.params;
+  const todo = await Todo.findById(_id);
+  if (!todo) return next(new ErrorHandler("Todo is not found with given id"));
   res.json(todo);
 };

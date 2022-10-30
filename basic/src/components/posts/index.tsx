@@ -37,8 +37,6 @@ const Main = (props: Props) => {
     }
   );
 
-  console.log("error", error);
-
   if (isLoading) return <span>Loading...</span>;
   if (isError) return <span>404 not found</span>;
 

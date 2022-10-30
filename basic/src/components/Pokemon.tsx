@@ -26,10 +26,6 @@ const Pokemon = (props: Props) => {
     }
   );
 
-  console.log("status", status);
-  console.log("isError", isError);
-  console.log("error", error);
-
   return (
     <div>
       <input
