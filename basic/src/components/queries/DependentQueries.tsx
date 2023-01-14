@@ -24,8 +24,10 @@ const DependentQueries = () => {
       ).data
     },
     {
-      // placeholderData: [existingUser],
-      initialData: [existingUser],
+      // with placeholderData query will run first time
+      placeholderData: [existingUser],
+      // but with initialData query will not run
+      // initialData: [existingUser],
       staleTime: 1000,
       // staleTime: Infinity,
     }
@@ -36,7 +38,7 @@ const DependentQueries = () => {
     isLoading: postLoading,
     fetchStatus,
   } = useQuery(
-    ["posts"],
+    ["userPost"],
     async () =>
       await axios.get<Products[]>(
         `https://jsonplaceholder.typicode.com/posts?${data?.[0].id}`

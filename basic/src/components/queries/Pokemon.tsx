@@ -1,28 +1,34 @@
 import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
+import axios, { GenericAbortSignal } from "axios"
 import { useState } from "react"
-import { pokemon } from "../key/pokemon"
+import { pokemon } from "../../key/pokemon"
 
-// pikachu
-// charizard
-
+export const getPokemon = async (
+  uri: string,
+  signal?: GenericAbortSignal | undefined
+) => {
+  await new Promise((res) => setTimeout(res, 500))
+  return await axios.get<{
+    sprites: { front_default: string }
+  }>(pokemon.url + "/" + uri, {
+    signal,
+  })
+}
 const Pokemon = () => {
   const [findPokemon, setFindPokemon] = useState<string>("")
 
-  const { data, isLoading, isError, fetchStatus } = useQuery(
+  const { data, isLoading, isError, fetchStatus, isFetching } = useQuery(
     [pokemon.key, findPokemon],
-    async ({ signal }) => {
-      await new Promise((res) => setTimeout(res, 500))
-      return await axios.get<{
-        sprites: { front_default: string }
-      }>(pokemon.url + "/" + findPokemon, {
-        signal,
-      })
-    },
+    ({ signal }) => getPokemon(findPokemon, signal),
     {
       enabled: !!findPokemon,
     }
   )
+
+  console.log(
+    "isFetching, fetchStatus(fetching|paused|idle),\n isLoading(true only first time)"
+  )
+  console.log(isFetching, fetchStatus, isLoading)
 
   return (
     <div>
@@ -32,7 +38,6 @@ const Pokemon = () => {
         onChange={(e) => setFindPokemon(e.target.value)}
         value={findPokemon}
       />
-      {fetchStatus === "idle" && "don't start fetching"}
       {fetchStatus === "idle" && isLoading ? null : isLoading ? (
         "Loading..."
       ) : isError ? (

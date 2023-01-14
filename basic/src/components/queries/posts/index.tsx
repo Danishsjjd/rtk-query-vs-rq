@@ -1,13 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
-import { useReducer, useState } from "react"
-
+import { useEffect, useReducer, useState } from "react"
+import { queryClient } from "../../../App"
 import { Post as PostType } from "../../../models/posts"
 import Post from "./Post"
 import Posts from "./Posts"
-import { queryClient } from "../../../App"
-
-type Props = {}
 
 const url = "https://jsonplaceholder.typicode.com/posts"
 
@@ -21,7 +18,7 @@ export const fetchData = async () => {
   return data.data
 }
 
-const Main = (props: Props) => {
+const Main = () => {
   const [count, increment] = useReducer((d) => d + 1, 0)
   const [postId, setPostId] = useState<number>(0)
 
@@ -42,7 +39,10 @@ const Main = (props: Props) => {
 
   return (
     <>
-      <h1>{count}</h1>{" "}
+      <h1>{count}</h1>
+      <span style={{ color: "red", fontWeight: "bold" }}>
+        {" if you go back check scrollbar it will be in it's initial state"}
+      </span>
       {data && (
         <div>
           {isFetching && <span>Updating...</span>}
@@ -60,4 +60,17 @@ const Main = (props: Props) => {
   )
 }
 
-export default Main
+const PreFetchPosts = () => {
+  const [toggle, setToggle] = useState(false)
+  useEffect(() => {
+    queryClient.prefetchQuery(["posts"], fetchData)
+  }, [])
+  return (
+    <>
+      <button onClick={() => setToggle((pre) => !pre)}>Toggle Posts</button>
+      {toggle && <Main />}
+    </>
+  )
+}
+
+export default PreFetchPosts
