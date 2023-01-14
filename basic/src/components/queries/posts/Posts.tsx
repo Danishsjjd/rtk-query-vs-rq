@@ -1,4 +1,4 @@
-import { Post } from "../../../models/posts"
+import type { Post } from "../../../types/posts"
 
 type Props = {
   posts: Post[]

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { useEffect, useReducer, useState } from "react"
 import { queryClient } from "../../../App"
-import { Post as PostType } from "../../../models/posts"
+import { Post as PostType } from "../../../types/posts"
 import Post from "./Post"
 import Posts from "./Posts"
 
@@ -22,15 +22,13 @@ const Main = () => {
   const [count, increment] = useReducer((d) => d + 1, 0)
   const [postId, setPostId] = useState<number>(0)
 
-  const { data, isLoading, isError, error, isFetching } = useQuery(
+  const { data, isLoading, isError, isFetching } = useQuery(
     ["posts"],
     fetchData,
     {
-      onSuccess(data) {
+      onSuccess() {
         increment()
       },
-      onError(err) {},
-      onSettled(data, error) {},
     }
   )
 

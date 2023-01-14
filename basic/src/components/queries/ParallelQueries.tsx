@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getPokemon } from "./Pokemon"
+import { getPokemon } from "../../services/pokemon"
 
 const ParallelQueries = () => {
   const { data: pikachu, isLoading: pLoading } = useQuery(

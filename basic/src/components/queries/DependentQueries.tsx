@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
-import { User } from "../../models/pokemon"
-import existingUser from "../../store/existingUser"
+import { User } from "../../types/pokemon"
+
+const existingUser: User = {
+  id: 1,
+  name: "Sajjad Ahmed",
+}
 
 interface Products {
   userId: number

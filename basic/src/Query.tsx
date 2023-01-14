@@ -7,11 +7,11 @@ import PreFetchPosts from "./components/queries/posts"
 function Home() {
   return (
     <>
-      <GlobalState />
-      <Pokemon />
-      <ParallelQueries />
-      <DependentQueries />
-      {/* <PreFetchPosts /> */}
+      {/* <GlobalState /> */}
+      {/* <Pokemon /> */}
+      {/* <ParallelQueries /> */}
+      {/* <DependentQueries /> */}
+      <PreFetchPosts />
     </>
   )
 }

@@ -1,21 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
-import axios, { GenericAbortSignal } from "axios"
 import { useState } from "react"
-import { pokemon } from "../../key/pokemon"
+import { getPokemon, pokemon } from "../../services/pokemon"
 
-export const getPokemon = async (
-  uri: string,
-  signal?: GenericAbortSignal | undefined
-) => {
-  await new Promise((res) => setTimeout(res, 500))
-  return await axios.get<{
-    sprites: { front_default: string }
-  }>(pokemon.url + "/" + uri, {
-    signal,
-  })
-}
 const Pokemon = () => {
-  const [findPokemon, setFindPokemon] = useState<string>("")
+  const [findPokemon, setFindPokemon] = useState("")
 
   const { data, isLoading, isError, fetchStatus, isFetching } = useQuery(
     [pokemon.key, findPokemon],
