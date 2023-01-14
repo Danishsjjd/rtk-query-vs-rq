@@ -1,9 +1,9 @@
-import { Post } from "../../models/posts";
+import { Post } from "../../../models/posts"
 
 type Props = {
-  posts: Post[];
-  setPostId: Function;
-};
+  posts: Post[]
+  setPostId: Function
+}
 
 const Posts = ({ posts, setPostId }: Props) => {
   return (
@@ -22,10 +22,10 @@ const Posts = ({ posts, setPostId }: Props) => {
               {title}
             </span>
           </li>
-        );
+        )
       })}
     </ul>
-  );
-};
+  )
+}
 
-export default Posts;
+export default Posts

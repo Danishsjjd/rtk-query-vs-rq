@@ -1,8 +1,8 @@
 export interface Pokemon {
-  url: string;
-  name: string;
+  url: string
+  name: string
 }
 export interface User {
-  id: number;
-  name: string;
+  id: number
+  name: string
 }

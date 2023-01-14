@@ -1,36 +1,35 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { User } from "../models/pokemon";
-import existingUser from "../store/existingUser";
-
-type Props = {};
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
+import { User } from "../../models/pokemon"
+import existingUser from "../../store/existingUser"
 
 interface Products {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
+  userId: number
+  id: number
+  title: string
+  body: string
 }
 
-const email = "Sincere@april.biz";
+const email = "Sincere@april.biz"
 
-const DependentQueries = (props: Props) => {
+const DependentQueries = () => {
   const { data, isLoading } = useQuery(
     ["user"],
     async () => {
-      await new Promise((res) => setTimeout(res, 2000));
+      await new Promise((res) => setTimeout(res, 2000))
       return (
         await axios.get<[User]>(
           `https://jsonplaceholder.typicode.com/users?email=${email}`
         )
-      ).data;
+      ).data
     },
     {
       // placeholderData: [existingUser],
       initialData: [existingUser],
       staleTime: 1000,
+      // staleTime: Infinity,
     }
-  );
+  )
 
   const {
     data: postsData,
@@ -43,7 +42,7 @@ const DependentQueries = (props: Props) => {
         `https://jsonplaceholder.typicode.com/posts?${data?.[0].id}`
       ),
     { enabled: !!data?.[0]?.id }
-  );
+  )
 
   return (
     <>
@@ -65,13 +64,13 @@ const DependentQueries = (props: Props) => {
         ) : (
           <ul>
             {postsData?.data.map((product) => {
-              return <li key={product.id}>{product.title}</li>;
+              return <li key={product.id}>{product.title}</li>
             })}
           </ul>
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default DependentQueries;
+export default DependentQueries

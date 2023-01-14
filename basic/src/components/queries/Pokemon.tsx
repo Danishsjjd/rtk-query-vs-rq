@@ -1,30 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useState } from "react";
-import { pokemon } from "../key/pokemon";
-
-type Props = {};
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
+import { useState } from "react"
+import { pokemon } from "../key/pokemon"
 
 // pikachu
 // charizard
 
-const Pokemon = (props: Props) => {
-  const [findPokemon, setFindPokemon] = useState<string>("");
+const Pokemon = () => {
+  const [findPokemon, setFindPokemon] = useState<string>("")
 
-  const { data, isLoading, isError, status, error, fetchStatus } = useQuery(
+  const { data, isLoading, isError, fetchStatus } = useQuery(
     [pokemon.key, findPokemon],
     async ({ signal }) => {
-      await new Promise((res) => setTimeout(res, 500));
+      await new Promise((res) => setTimeout(res, 500))
       return await axios.get<{
-        sprites: { front_default: string };
+        sprites: { front_default: string }
       }>(pokemon.url + "/" + findPokemon, {
         signal,
-      });
+      })
     },
     {
       enabled: !!findPokemon,
     }
-  );
+  )
 
   return (
     <div>
@@ -34,6 +32,7 @@ const Pokemon = (props: Props) => {
         onChange={(e) => setFindPokemon(e.target.value)}
         value={findPokemon}
       />
+      {fetchStatus === "idle" && "don't start fetching"}
       {fetchStatus === "idle" && isLoading ? null : isLoading ? (
         "Loading..."
       ) : isError ? (
@@ -44,7 +43,7 @@ const Pokemon = (props: Props) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Pokemon;
+export default Pokemon

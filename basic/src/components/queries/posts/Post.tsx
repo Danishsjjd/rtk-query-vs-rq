@@ -1,13 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
 
-import { Post as PostType } from "../../models/posts";
+import { Post as PostType } from "../../../models/posts"
 // import { queryClient } from "../../Home";
 
 type Props = {
-  postUrl: string;
-  setPostId: Function;
-};
+  postUrl: string
+  setPostId: Function
+}
 
 const Post = ({ postUrl, setPostId }: Props) => {
   // const allPosts = queryClient.getQueriesData<PostType[]>(["posts"]);
@@ -22,9 +22,9 @@ const Post = ({ postUrl, setPostId }: Props) => {
       // placeholderData: () =>
       //   allPostData?.find((gPost) => gPost.id === parseInt(postId)),
     }
-  );
+  )
 
-  if (isLoading) return <span>Loading..</span>;
+  if (isLoading) return <span>Loading..</span>
 
   return (
     <div>
@@ -42,7 +42,7 @@ const Post = ({ postUrl, setPostId }: Props) => {
 
       <h2>{data?.title}</h2>
     </div>
-  );
-};
+  )
+}
 
-export default Post;
+export default Post
