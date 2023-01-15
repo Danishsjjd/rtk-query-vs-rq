@@ -1,0 +1,3 @@
+[submodule "RTK-query"]
+	path = RTK-query
+	url = https://github.com/danishsjjd/RTK-query
