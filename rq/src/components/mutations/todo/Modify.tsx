@@ -1,26 +1,27 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useQuery, useMutation } from "@tanstack/react-query"
+import axios, { AxiosError } from "axios"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { useQueryClient } from "@tanstack/react-query"
 
-import { Todo } from "../../models/todo";
-import { url } from "./index";
-import { queryClient } from "../../App";
+import { Todo } from "../../../types/todo"
+import { url } from "./index"
 
 type Props = {
-  id: string;
-};
+  id: string
+}
 
 type FormValues = {
-  todo: string;
-};
+  todo: string
+}
 
 const Modify = ({ id }: Props) => {
+  const queryClient = useQueryClient()
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty },
     reset,
-  } = useForm<FormValues>({});
+  } = useForm<FormValues>({})
 
   const { data, error, isLoading, isError } = useQuery<
     Todo,
@@ -30,7 +31,7 @@ const Modify = ({ id }: Props) => {
       queryClient
         .getQueryData<Todo[]>(["todos"])
         ?.find((todo) => todo._id === id),
-  });
+  })
 
   const {
     isError: updatingError,
@@ -44,39 +45,39 @@ const Modify = ({ id }: Props) => {
     () => Todo | undefined
   >((data) => axios.put(url, { ...data }), {
     onSuccess(data, variables, context) {
-      queryClient.setQueryData(["todo", variables._id], variables);
-      queryClient.invalidateQueries(["todo", variables._id]);
-      reset({ todo: "" });
+      queryClient.setQueryData(["todo", variables._id], variables)
+      queryClient.invalidateQueries(["todo", variables._id])
+      reset({ todo: "" })
     },
     onMutate(variables) {
       const oldTodo: Todo | undefined = queryClient.getQueryData([
         "todo",
         variables._id,
-      ]);
-      queryClient.setQueryData<Todo>(["todo", variables._id], variables);
+      ])
+      queryClient.setQueryData<Todo>(["todo", variables._id], variables)
 
       return () =>
         queryClient.setQueryData<Todo | undefined>(
           ["todo", variables._id],
           oldTodo
-        );
+        )
     },
     onError(error, variables, rollBack) {
-      rollBack?.();
+      rollBack?.()
     },
-  });
+  })
 
-  if (isLoading) return <span>loading..</span>;
+  if (isLoading) return <span>loading..</span>
   if (isError)
-    return <span>{error?.response?.data.message ?? error.message}</span>;
+    return <span>{error?.response?.data.message ?? error.message}</span>
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     mutate({
       _id: data._id,
       todo: formData.todo,
       completed: data.completed,
-    });
-  };
+    })
+  }
 
   return (
     <div>
@@ -108,7 +109,7 @@ const Modify = ({ id }: Props) => {
         <button>Delete</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Modify;
+export default Modify
