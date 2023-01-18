@@ -26,11 +26,11 @@ const Modify = ({ id }: Props) => {
   const { data, error, isLoading, isError } = useQuery<
     Todo,
     AxiosError<{ message: string }>
-  >(["todo", id], async () => (await axios.get<Todo>(url + id)).data, {
+  >(["todo", id], async () => (await axios.get<Todo>(url + `/${id}`)).data, {
     placeholderData: () =>
       queryClient
         .getQueryData<Todo[]>(["todos"])
-        ?.find((todo) => todo._id === id),
+        ?.find((todo) => todo.id === id),
   })
 
   const {
@@ -43,22 +43,27 @@ const Modify = ({ id }: Props) => {
     AxiosError<{ message: string }>,
     Todo,
     () => Todo | undefined
-  >((data) => axios.put(url, { ...data }), {
+  >((data) => axios.put(`${url}/${id}`, { ...data }), {
     onSuccess(data, variables, context) {
-      queryClient.setQueryData(["todo", variables._id], variables)
-      queryClient.invalidateQueries(["todo", variables._id])
+      queryClient.setQueryData(["todo", variables.id.toString()], variables)
+      // queryClient.invalidateQueries(["todo", variables.id])
       reset({ todo: "" })
+      context?.()
+      console.log(context)
     },
     onMutate(variables) {
       const oldTodo: Todo | undefined = queryClient.getQueryData([
         "todo",
-        variables._id,
+        variables.id,
       ])
-      queryClient.setQueryData<Todo>(["todo", variables._id], variables)
+      queryClient.setQueryData<Todo>(
+        ["todo", variables.id.toString()],
+        variables
+      )
 
       return () =>
         queryClient.setQueryData<Todo | undefined>(
-          ["todo", variables._id],
+          ["todo", variables.id],
           oldTodo
         )
     },
@@ -73,7 +78,7 @@ const Modify = ({ id }: Props) => {
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     mutate({
-      _id: data._id,
+      id: data.id,
       todo: formData.todo,
       completed: data.completed,
     })

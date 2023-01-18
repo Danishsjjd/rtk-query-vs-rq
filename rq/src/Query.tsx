@@ -5,19 +5,19 @@ import GlobalState from "./components/queries/GlobalState"
 import ParallelQueries from "./components/queries/ParallelQueries"
 import Pokemon from "./components/queries/Pokemon"
 import PreFetchPosts from "./components/queries/posts"
-import Home from "./pages/Home"
+import { default as Home } from "./components/mutations/todo"
 
 function Query() {
   return (
     <>
-      <div>
+      {/* <div>
         <h3>Queries</h3>
-        {/* <GlobalState /> */}
-        {/* <Pokemon /> */}
-        {/* <ParallelQueries /> */}
-        {/* <DependentQueries /> */}
-        {/* <PreFetchPosts /> */}
-      </div>
+        <GlobalState />
+        <Pokemon />
+        <ParallelQueries />
+        <DependentQueries />
+        <PreFetchPosts />
+      </div> */}
       <div>
         <h3>Mutations</h3>
         <Routes>

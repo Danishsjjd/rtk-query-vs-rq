@@ -1,7 +1,7 @@
-import List from "./List";
-import Create from "./Create";
+import List from "./List"
+import Create from "./Create"
 
-export const url: string = "http://localhost:9001/api/todo/";
+export const url: string = "http://localhost:3000/todo"
 
 const Todo = () => {
   return (
@@ -9,7 +9,7 @@ const Todo = () => {
       <List />
       <Create />
     </>
-  );
-};
+  )
+}
 
-export default Todo;
+export default Todo

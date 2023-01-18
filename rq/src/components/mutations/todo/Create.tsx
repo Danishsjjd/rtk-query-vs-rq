@@ -37,7 +37,7 @@ const Create = () => {
           return [
             ...previousTodo,
             {
-              _id: Date.now().toString(),
+              id: Date.now().toString(),
               completed: false,
               todo: variables.todo,
             },

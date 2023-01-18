@@ -16,9 +16,9 @@ const List = () => {
 
   return (
     <ul>
-      {data?.map(({ _id, completed, todo }) => (
-        <li key={_id}>
-          <Link to={`todo/${_id}`}>
+      {data?.map(({ id, completed, todo }) => (
+        <li key={id}>
+          <Link to={`todo/${id}`}>
             <span>{todo}</span>
           </Link>
         </li>
