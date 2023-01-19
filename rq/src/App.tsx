@@ -1,22 +1,37 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { BrowserRouter } from "react-router-dom"
+import { Link, Route, Routes } from "react-router-dom"
+import { default as Home } from "./components/mutations/todo"
+import Modify from "./components/mutations/todo/Modify"
+import DependentQueries from "./components/queries/DependentQueries"
+import GlobalState from "./components/queries/GlobalState"
+import ParallelQueries from "./components/queries/ParallelQueries"
+import Pokemon from "./components/queries/Pokemon"
+import PreFetchPosts from "./components/queries/posts"
 
-import Query from "./Query"
-
-type Props = {}
-
-export const queryClient = new QueryClient()
-
-const Home = (props: Props) => {
+function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Query />
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <>
+      <h3>Mutations</h3>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/todo/:id" element={<Modify />} />
+        <Route path="/queries" element={<Queries />} />
+      </Routes>
+    </>
   )
 }
 
-export default Home
+const Queries = () => {
+  return (
+    <>
+      <Link to={"/"}>go to mutations example</Link>
+      <h3>Queries</h3>
+      <GlobalState />
+      <Pokemon />
+      <ParallelQueries />
+      <DependentQueries />
+      <PreFetchPosts />
+    </>
+  )
+}
+
+export default App

@@ -14,7 +14,7 @@ const Pokemon = () => {
   )
 
   console.log(
-    "isFetching, fetchStatus(fetching|paused|idle),\n isLoading(true only first time)"
+    "isFetching, fetchStatus(fetching|paused|idle),\n isLoading(true only first time but in pokemon case there is always a new request)"
   )
   console.log(isFetching, fetchStatus, isLoading)
 
