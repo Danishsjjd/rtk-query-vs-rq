@@ -2,22 +2,18 @@
   "todo": [
     {
       "id": 1,
-      "completed": false,
-      "todo": "first todo ever"
+      "todo": "morning walk",
+      "completed": false
     },
     {
       "id": 2,
-      "todo": "third",
+      "todo": "complete trpc project",
       "completed": false
     },
     {
       "id": 3,
-      "completed": false,
-      "todo": "third todo ever"
-    },
-    {
-      "todo": "third",
-      "id": 4
+      "todo": "learn typedgraphql",
+      "completed": false
     }
   ]
 }

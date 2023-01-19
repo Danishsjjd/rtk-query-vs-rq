@@ -1,17 +1,12 @@
-import { useMutation } from "@tanstack/react-query"
-import axios, { AxiosError } from "axios"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { AxiosError } from "axios"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { useQueryClient } from "@tanstack/react-query"
-
-import { Todo } from "../../../types/todo"
-import { url } from "./index"
-
-type FormValue = {
-  todo: string
-}
+import { createTodo } from "../../../api/todo"
+import { FormValue, Todo } from "../../../types/todo"
 
 const Create = () => {
   const queryClient = useQueryClient()
+
   const {
     handleSubmit,
     register,
@@ -19,13 +14,11 @@ const Create = () => {
     reset,
   } = useForm<FormValue>({})
 
-  const { mutate, isLoading, isError, error } = useMutation<
-    Todo,
-    AxiosError<{ message: string }>,
-    FormValue,
-    () => Todo[] | undefined
-  >((data) => axios.post(url, { todo: data.todo }), {
+  const createTodoMutation = useMutation({
+    mutationFn: createTodo,
     onSuccess() {
+      // ! don't need extra request
+      // ! it's depends I already set Data and rollback if there is any error
       queryClient.invalidateQueries(["todos"])
       reset({ todo: "" })
     },
@@ -37,7 +30,7 @@ const Create = () => {
           return [
             ...previousTodo,
             {
-              id: Date.now().toString(),
+              id: Date.now(),
               completed: false,
               todo: variables.todo,
             },
@@ -51,7 +44,7 @@ const Create = () => {
   })
 
   const onSubmit: SubmitHandler<FormValue> = (data) => {
-    mutate(data)
+    createTodoMutation.mutate(data)
   }
 
   return (
@@ -65,8 +58,13 @@ const Create = () => {
       {errors.todo?.message && (
         <span style={{ color: "red" }}>{errors?.todo?.message.toString()}</span>
       )}
-      <button type="submit">{isLoading ? "saving..." : "Submit"}</button>
-      {isError ? error?.response?.data?.message : null}
+      <button type="submit">
+        {createTodoMutation.isLoading ? "saving..." : "Submit"}
+      </button>
+      {createTodoMutation.isError &&
+      createTodoMutation.error instanceof AxiosError
+        ? createTodoMutation.error?.response?.data?.message
+        : null}
     </form>
   )
 }
