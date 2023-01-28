@@ -1,8 +1,10 @@
+import { useState } from "react"
 import { Link, Route, Routes } from "react-router-dom"
 import { default as Home } from "./components/mutations/todo"
 import Modify from "./components/mutations/todo/Modify"
 import DependentQueries from "./components/queries/DependentQueries"
 import GlobalState from "./components/queries/GlobalState"
+import { PostListInfinite } from "./components/queries/InfinitePageList"
 import ParallelQueries from "./components/queries/ParallelQueries"
 import Pokemon from "./components/queries/Pokemon"
 import PreFetchPosts from "./components/queries/posts"
@@ -14,8 +16,23 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/todo/:id" element={<Modify />} />
-        <Route path="/queries" element={<Queries />} />
+        <Route path="/queries" element={<CurrentQueryPage />} />
       </Routes>
+    </>
+  )
+}
+
+const CurrentQueryPage = () => {
+  const [CurrentPage, setCurrentPage] = useState<JSX.Element>(<Queries />)
+  return (
+    <>
+      <button onClick={() => setCurrentPage(<Queries />)}>
+        queries home page
+      </button>
+      <button onClick={() => setCurrentPage(<PostListInfinite />)}>
+        infinitePageList
+      </button>
+      {CurrentPage}
     </>
   )
 }
