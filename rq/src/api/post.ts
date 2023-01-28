@@ -7,15 +7,15 @@ export type Post = {
   message: string
 }
 
-export type NextPage = {
+export type Page = {
   nextPage: number | undefined
   previousPage: number | undefined
-  posts: Post
+  posts: Post[]
 }
 
 const LIMIT = 2
 
-export async function getPostsPaginated(page: number): Promise<NextPage> {
+export async function getPostsPaginated(page: number): Promise<Page> {
   const res = await axios.get("http://localhost:3000/posts", {
     params: { _page: page, _sort: "title", _limit: LIMIT },
   })

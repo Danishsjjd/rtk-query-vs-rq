@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { getPostsPaginated, NextPage, Post } from "../../api/post"
+import { getPostsPaginated, Page, Post } from "../../api/post"
 
 export function PostListInfinite() {
   const {
@@ -9,7 +9,7 @@ export function PostListInfinite() {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteQuery<NextPage, unknown, { posts: Post[] }, string[]>({
+  } = useInfiniteQuery<Page, unknown, { posts: Post[] }, string[]>({
     queryKey: ["posts", "infinite"],
     getNextPageParam: (prevData) => prevData.nextPage,
     queryFn: ({ pageParam = 1 }) => getPostsPaginated(pageParam),

@@ -7,6 +7,7 @@ import GlobalState from "./components/queries/GlobalState"
 import { PostListInfinite } from "./components/queries/InfinitePageList"
 import ParallelQueries from "./components/queries/ParallelQueries"
 import Pokemon from "./components/queries/Pokemon"
+import { PostListPaginated } from "./components/queries/PostListPaginated"
 import PreFetchPosts from "./components/queries/posts"
 
 function App() {
@@ -31,6 +32,9 @@ const CurrentQueryPage = () => {
       </button>
       <button onClick={() => setCurrentPage(<PostListInfinite />)}>
         infinitePageList
+      </button>
+      <button onClick={() => setCurrentPage(<PostListPaginated />)}>
+        PostListPaginated
       </button>
       {CurrentPage}
     </>
