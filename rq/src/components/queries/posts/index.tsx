@@ -1,21 +1,8 @@
-import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useEffect, useReducer, useState } from "react"
-import { Post as PostType } from "../../../types/posts"
+import { preFetchAllPosts } from "../../../api/post"
 import Post from "./Post"
 import Posts from "./Posts"
-
-const url = "https://jsonplaceholder.typicode.com/posts"
-
-export const fetchData = (queryClient: QueryClient) => async () => {
-  const data = await axios.get<PostType[]>(url)
-
-  data.data.forEach((post) => {
-    queryClient.setQueryData(["post", url + "/" + post.id], post)
-  })
-
-  return data.data
-}
 
 const Main = () => {
   const [count, increment] = useReducer((d) => d + 1, 0)
@@ -25,7 +12,7 @@ const Main = () => {
 
   const { data, isLoading, isError, isFetching } = useQuery(
     ["posts"],
-    fetchData(queryClient),
+    preFetchAllPosts(queryClient),
     {
       onSuccess() {
         increment()
@@ -63,7 +50,7 @@ const PreFetchPosts = () => {
   const queryClient = useQueryClient()
   const [toggle, setToggle] = useState(false)
   useEffect(() => {
-    queryClient.prefetchQuery(["posts"], fetchData(queryClient))
+    queryClient.prefetchQuery(["posts"], preFetchAllPosts(queryClient))
   }, [])
   return (
     <>

@@ -1,18 +1,8 @@
+import { QueryClient } from "@tanstack/react-query"
 import axios from "axios"
+import { Page, Post } from "../types/posts"
 
-export type Post = {
-  userId: number
-  id: number
-  title: string
-  message: string
-}
-
-export type Page = {
-  nextPage: number | undefined
-  previousPage: number | undefined
-  posts: Post[]
-}
-
+const URL = "http://localhost:3000/posts"
 const LIMIT = 2
 
 export async function getPostsPaginated(page: number): Promise<Page> {
@@ -28,4 +18,14 @@ export async function getPostsPaginated(page: number): Promise<Page> {
     previousPage: page > 1 ? page - 1 : undefined,
     posts: res.data,
   }
+}
+
+export const preFetchAllPosts = (queryClient: QueryClient) => async () => {
+  const data = await axios.get<Post[]>(URL)
+
+  data.data.forEach((post) => {
+    queryClient.setQueryData(["post", URL + "/" + post.id], post)
+  })
+
+  return data.data
 }
