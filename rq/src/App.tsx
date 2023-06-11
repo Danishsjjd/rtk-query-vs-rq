@@ -13,7 +13,6 @@ import PreFetchPosts from "./components/queries/posts"
 function App() {
   return (
     <>
-      <h3>Mutations</h3>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/todo/:id" element={<Modify />} />
@@ -27,6 +26,8 @@ const CurrentQueryPage = () => {
   const [CurrentPage, setCurrentPage] = useState<JSX.Element>(<Queries />)
   return (
     <>
+      <Link to={"/"}>go to mutations example</Link>
+      <h1>Queries</h1>
       <button onClick={() => setCurrentPage(<Queries />)}>
         queries home page
       </button>
@@ -44,8 +45,6 @@ const CurrentQueryPage = () => {
 const Queries = () => {
   return (
     <>
-      <Link to={"/"}>go to mutations example</Link>
-      <h3>Queries</h3>
       <GlobalState />
       <Pokemon />
       <ParallelQueries />
